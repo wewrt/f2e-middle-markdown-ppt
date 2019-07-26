@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=750,maximum-scale=1,user-scalable=0">
+    <meta name="x5-page-mode" content="app">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="format-detection" content="telephone=no">
+    {{head}}
+    <style>
+    html body { overflow: hidden; }
+    .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 { color: unset }
+    .content { overflow: auto; max-height: calc(100vh - 6rem); }
+    section.hero { position: fixed; left: 0; top: 0; width: 100vw; visibility: hidden; overflow: hidden;}
+    section.hero.active { z-index: 2; visibility: visible; }
+    section.hero img { max-width: 90%; max-height: 400px; transition: box-shadow .3s ease; }
+    section.hero img:hover { cursor: pointer; box-shadow: 0 0 30px #555; }
+    section.hero img:only-child { display: block; margin: 0 auto; }
+    .speaker section.hero { height: 50vh; min-height: 50vh }
+    .speaker section.hero.active { top: 0; }
+    .speaker section.hero.active + section { top: 50vh; visibility: visible; z-index: 1;}
+    @media print {
+        section.hero { position: relative; visibility: visible; background: #fff;}
+        section.hero * { color: #333 !important; }
+    }
+    </style>
+</head>
+<body>
+{{body}}
+<div id="image-preview" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box image-preview">
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+</div>
+{{script}}
+</body>
+</html>

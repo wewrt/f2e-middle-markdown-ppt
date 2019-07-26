@@ -1,0 +1,35 @@
+{
+  "name": "f2e-middle-markdown-ppt",
+  "version": "0.1.0",
+  "description": "markdown-ppt for f2e-server",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "f2e-server": "^2.10.1",
+    "marked": "^0.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "f2e start",
+    "build": "f2e build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/f2e-server/f2e-middle-markdown-ppt.git"
+  },
+  "keywords": [
+    "f2e",
+    "middle",
+    "markdown",
+    "ppt"
+  ],
+  "author": "shy2850",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/f2e-server/f2e-middle-markdown-ppt/issues"
+  },
+  "homepage": "https://github.com/f2e-server/f2e-middle-markdown-ppt#readme"
+}
