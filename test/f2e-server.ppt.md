@@ -120,24 +120,33 @@ style: https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css
 
 # 内置中间件 - [livereload](https://github.com/shy2850/f2e-server/blob/master/lib/middleware/livereload.js)
 1. 只在HTTP-Server 开发环境下可用、不得设置 `onSet` & `onGet`
-2. 使用 [ServerEvent](https://developer.mozilla.org/zh-CN/docs/Server-sent_events/Using_server-sent_events) 支持。 实时性强、单向推送、适合livereload场景。
+2. 使用 [ServerSentEvent](https://developer.mozilla.org/zh-CN/docs/Server-sent_events/Using_server-sent_events) 支持。 实时性强、单向推送、适合livereload场景。
 
 ![f2e-middle-livereload.png](img/f2e-middle-livereload.png)
 
 [page class="is-light" animated="fadeIn"]
 
-# 其他中间件 - [livereload](https://github.com/f2e-server/f2e-middleware)
+# 其他中间件 - [f2e-middleware](https://github.com/f2e-server/f2e-middleware)
 
-    扩展的中间件
+    其他中间件
 
-1. `template` [Lodash](https://lodash.com/) template 实现
-2. `markdown` [marked](https://marked.js.org) 封装
-3. `proxy` 基于 [request](https://www.npmjs.com/package/request) 实现代理
-4. `qrcode` 一个简单的字符串转二维码图片的接口实现
-5. `typescript` [TypeScript](https://www.typescriptlang.org/) 单文件编译实现
-6. `babel` [Babel](https://www.babeljs.cn/) 编译支持
-7. `less` [Less](https://less.bootcss.com/) 编译支持
+1. `babel` 【内置】[Babel](https://www.babeljs.cn/) 编译支持
+2. `less` 【内置】[Less](https://less.bootcss.com/) 编译支持
+3. `template` 【安装依赖】[Lodash](https://lodash.com/) template 实现
+4. `markdown` [marked](https://marked.js.org) 封装
+5. `proxy` 基于 [request](https://www.npmjs.com/package/request) 实现代理
+6. `qrcode` 一个简单的字符串转二维码图片的接口实现
+7. `typescript` [TypeScript](https://www.typescriptlang.org/) 单文件编译实现
 8. `sass` [Sass](http://sass.bootcss.com/) 编译支持
 9. `rollup` [Rollup](https://www.rollupjs.com/guide/zh) 支持
 10. `webpack` [Webpack](https://www.webpackjs.com/)
+11. `authority` 公司内部使用的轻量级 **权限验证、权限-角色-用户管理** 通用组件
+12. `markdown-ppt` [MarkdownPPT](https://github.com/f2e-server/f2e-middle-markdown-ppt) 基于[marked](https://www.npmjs.com/package/marked)简单在线PPT演示
 
+[page class="is-success is-bold" animated="flash"]
+
+# MarkdownPPT
+
+    MarkdownPPT 当前在线PPT实现原理
+
+![f2e-middle-markdown-ppt.png](img/f2e-middle-markdown-ppt.png)

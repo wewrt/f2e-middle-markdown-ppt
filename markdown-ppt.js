@@ -86,6 +86,7 @@
 
     let _n = 0
     const createSSE = function createSSE () {
+        online = true
         const sse = new EventSource('/markdown-ppt-event', { withCredentials: true });
         const onMessage = e => {
             if (e.data != 'false') {
