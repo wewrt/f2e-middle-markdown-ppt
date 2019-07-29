@@ -5,7 +5,7 @@ const { readFileSync, existsSync } = require('fs')
 
 let password = undefined
 if (existsSync(join(__dirname, '.password'))) {
-    password = readFileSync(join(__dirname, '.password')).toString()
+    password = readFileSync(join(__dirname, '.password')).toString().trim()
 }
 
 module.exports = {
