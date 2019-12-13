@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=750,maximum-scale=1,user-scalable=0">
+    <meta name="x5-page-mode" content="app">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="format-detection" content="telephone=no">
+    <title>f2e-server</title>
+	<meta name="author" content="shiyangyang"/>
+	<meta name="keywords" content="f2e-server 基于Node.js的前端开发服务器"/>
+	<link href="https://cdn.bootcss.com/bulma/0.7.5/css/bulma.min.css" rel="stylesheet">
+	<link href="https://cdn.bootcss.com/font-awesome/4.0.2/css/font-awesome.min.css" rel="stylesheet">
+	<link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+	
+    <style>
+    html body { overflow: hidden; }
+    .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 { color: unset }
+    .content { overflow: auto; max-height: calc(100vh - 6rem); }
+    section.hero { position: fixed; left: 0; top: 0; width: 100vw; visibility: hidden; overflow: hidden;}
+    section.hero.active { z-index: 2; visibility: visible; }
+    section.hero img { max-width: 90%; max-height: 400px; transition: box-shadow .3s ease; }
+    section.hero img:hover { cursor: pointer; box-shadow: 0 0 30px #555; }
+    section.hero img:only-child { display: block; margin: 0 auto; }
+    .speaker section.hero { height: 50vh; min-height: 50vh }
+    .speaker section.hero.active { top: 0; }
+    .speaker section.hero.active + section { top: 50vh; visibility: visible; z-index: 1;}
+    @media print {
+        section.hero { position: relative; visibility: visible; background: #fff;}
+        section.hero * { color: #333 !important; }
+    }
+    </style>
+</head>
+<body>
+<section class="hero is-fullheight animated is-dark" data-animated="fadeIn">
+    <div class="hero-head">
+        <div class="container"></div>
+    </div>
+    <div class="hero-body">
+        <div class="container content"><h1 id="i-classfa-fa-fw-fa-homei-f2e-server"><i class="fa fa-fw fa-home"></i> f2e-server</h1>
+<pre><code>基于Node.js的前端开发服务器</code></pre><ol>
+<li>开发背景</li>
+<li>竞品分析</li>
+<li>基本功能</li>
+<li>实现原理</li>
+<li>中间件</li>
+<li>在线PPT模板开发</li>
+</ol>
+</div>
+    </div>
+    <div class="hero-foot">
+        <div class="container"></div>
+    </div>
+</section>
+<section class="hero is-fullheight animated is-primary is-bold" data-animated="fadeInLeft">
+    <div class="hero-head">
+        <div class="container"></div>
+    </div>
+    <div class="hero-body">
+        <div class="container content"><h1 id="i-classfa-fa-fw-fa-question-circlei-开发背景"><i class="fa fa-fw fa-question-circle"></i> 开发背景</h1>
+<pre><code>前端开发基本需求 &amp; 日渐复杂的开发场景</code></pre><ul>
+<li>基本的静态文件服务器 <code>Server</code></li>
+<li>自动刷新  <code>livereload</code></li>
+<li>代码转换校验  <code>compile &amp; lint</code><ul>
+<li>CoffeeScript/ES-Next/TypeScript/JSX =&gt; JS</li>
+<li>LESS/SASS =&gt; CSS</li>
+<li>Jade(Pug)/Template =&gt; HTML</li>
+<li>...</li>
+</ul>
+</li>
+<li>代理接口调试 <code>Proxy</code></li>
+<li>文件压缩合并优化 <code>Uglify Minify Bundle</code></li>
+<li>...</li>
+</ul>
+</div>
+    </div>
+    <div class="hero-foot">
+        <div class="container"></div>
+    </div>
+</section>
+<section class="hero is-fullheight animated " data-animated="zoomIn">
+    <div class="hero-head">
+        <div class="container"></div>
+    </div>
+    <div class="hero-body">
+        <div class="container content"><h1 id="i-classfa-fa-fw-fa-listi-竞品分析"><i class="fa fa-fw fa-list"></i> 竞品分析</h1>
+<pre><code>前端开发环境变化历程的缩影</code></pre><ol>
+<li><strong>YUI Compressor</strong><br>Java开发的老牌资源压缩工具，一度成为jQuery之类的一等JS库默认压缩工具</li>
+<li><strong>NPM Scripts</strong><br>通过alias方式执行shell命令，依赖另外的shell满足基本构建需求</li>
+<li><a href="https://gruntjs.com"><strong>Grunt</strong></a><br>任务管理模式，开始基于Nodejs完成服务端构建任务</li>
+<li><a href="http://gulpjs.com"><strong>Gulp</strong></a><br>任务管理模式，支持了文件读写监听等模式、支持流式处理资源</li>
+<li><a href="https://fex.baidu.com/fis3/"><strong>FIS3</strong></a><br>混合资源输入输出模式，基本上开箱即用、默认集成大量常用前端工具</li>
+<li><a href="https://webpack.js.org"><strong>Webpack</strong></a><br>模块化打包工具，所有资源都通过JS模块化bundle</li>
+<li><a href="https://rollupjs.org"><strong>Rollup</strong></a><br>ES模块打包工具 <code>Tree Shaking</code> and <code>Scope Hoisting</code></li>
+</ol>
+<blockquote>
+<p>f2e-server 更接近 FIS3 的方式</p>
+</blockquote>
+</div>
+    </div>
+    <div class="hero-foot">
+        <div class="container"></div>
+    </div>
+</section>
+<section class="hero is-fullheight animated is-primary is-bold" data-animated="fadeInLeft">
+    <div class="hero-head">
+        <div class="container"></div>
+    </div>
+    <div class="hero-body">
+        <div class="container content"><h1 id="基本功能">基本功能</h1>
+<pre><code>f2e-server 核心功能表</code></pre><ul>
+<li>基础服务器</li>
+<li>资源压缩</li>
+<li>自动刷新</li>
+<li>ES、LESS、EJS 编译支持</li>
+<li>include belong 支持 </li>
+<li>代理</li>
+<li>扩展支持</li>
+</ul>
+</div>
+    </div>
+    <div class="hero-foot">
+        <div class="container"></div>
+    </div>
+</section>
+<section class="hero is-fullheight animated is-link is-bold" data-animated="rollIn">
+    <div class="hero-head">
+        <div class="container"></div>
+    </div>
+    <div class="hero-body">
+        <div class="container content"><h1 id="实现原理---输入">实现原理 - 输入</h1>
+<pre><code>资源加载到内存: 文件过滤和文件监听需要在资源加载流程中处理</code></pre><p><img src="img/f2e-build-into.png" alt="f2e-build-into.png"></p>
+</div>
+    </div>
+    <div class="hero-foot">
+        <div class="container"></div>
+    </div>
+</section>
+<section class="hero is-fullheight animated is-link is-bold" data-animated="zoomInUp">
+    <div class="hero-head">
+        <div class="container"></div>
+    </div>
+    <div class="hero-body">
+        <div class="container content"><h1 id="实现原理---输出">实现原理 - 输出</h1>
+<pre><code>资源资源存储到文件系统</code></pre><p><img src="img/f2e-build-out.png" alt="f2e-build-out.png"></p>
+</div>
+    </div>
+    <div class="hero-foot">
+        <div class="container"></div>
+    </div>
+</section>
+<section class="hero is-fullheight animated is-link is-bold" data-animated="flipInX">
+    <div class="hero-head">
+        <div class="container"></div>
+    </div>
+    <div class="hero-body">
+        <div class="container content"><h1 id="实现原理---http">实现原理 - HTTP</h1>
+<pre><code>HTTP-Server 对接持久化接口 &amp; 新增接口</code></pre><p><img src="img/f2e-build-http.png" alt="f2e-build-http.png"></p>
+</div>
+    </div>
+    <div class="hero-foot">
+        <div class="container"></div>
+    </div>
+</section>
+<section class="hero is-fullheight animated is-link is-bold" data-animated="flipInY">
+    <div class="hero-head">
+        <div class="container"></div>
+    </div>
+    <div class="hero-body">
+        <div class="container content"><h1 id="实现原理---middleware">实现原理 - Middleware</h1>
+<p>中间件模式: 中间件管理器实现各种接口的 链式(Promise链式)封装 <code>onGet/onSet/buildFilter/outputFilter</code> 同时支持build模式</p>
+<p><img src="img/f2e-middle-base.png" alt="f2e-middle-base.png">
+<img src="img/f2e-middle-other.png" alt="f2e-middle-other.png"></p>
+</div>
+    </div>
+    <div class="hero-foot">
+        <div class="container"></div>
+    </div>
+</section>
+<section class="hero is-fullheight animated is-light" data-animated="fadeInRight">
+    <div class="hero-head">
+        <div class="container"></div>
+    </div>
+    <div class="hero-body">
+        <div class="container content"><h1 id="内置中间件---include">内置中间件 - <a href="https://github.com/shy2850/f2e-server/blob/master/lib/middleware/include.js">include</a></h1>
+<ol>
+<li>基本思路: <code>onSet</code> 接口修改文本替换</li>
+<li>注意事项: <code>buildWatcher</code> 如果是被引用的资源也需要重新构建 母文件</li>
+</ol>
+<p><img src="img/f2e-middle-include-1.png" alt="f2e-middle-include-1.png">
+<img src="img/f2e-middle-include-2.png" alt="f2e-middle-include-2.png"></p>
+</div>
+    </div>
+    <div class="hero-foot">
+        <div class="container"></div>
+    </div>
+</section>
+<section class="hero is-fullheight animated is-dark" data-animated="bounceInLeft">
+    <div class="hero-head">
+        <div class="container"></div>
+    </div>
+    <div class="hero-body">
+        <div class="container content"><h1 id="内置中间件---livereload">内置中间件 - <a href="https://github.com/shy2850/f2e-server/blob/master/lib/middleware/livereload.js">livereload</a></h1>
+<ol>
+<li>只在HTTP-Server 开发环境下可用、不得设置 <code>onSet</code> &amp; <code>onGet</code></li>
+<li>使用 <a href="https://developer.mozilla.org/zh-CN/docs/Server-sent_events/Using_server-sent_events">ServerSentEvent</a> 支持。 实时性强、单向推送、适合livereload场景。</li>
+</ol>
+<p><img src="img/f2e-middle-livereload.png" alt="f2e-middle-livereload.png"></p>
+</div>
+    </div>
+    <div class="hero-foot">
+        <div class="container"></div>
+    </div>
+</section>
+<section class="hero is-fullheight animated is-light" data-animated="fadeIn">
+    <div class="hero-head">
+        <div class="container"></div>
+    </div>
+    <div class="hero-body">
+        <div class="container content"><h1 id="其他中间件---f2e-middleware">其他中间件 - <a href="https://github.com/f2e-server/f2e-middleware">f2e-middleware</a></h1>
+<pre><code>其他中间件</code></pre><ol>
+<li><code>babel</code> 【内置】<a href="https://www.babeljs.cn/">Babel</a> 编译支持</li>
+<li><code>less</code> 【内置】<a href="https://less.bootcss.com/">Less</a> 编译支持</li>
+<li><code>template</code> 【安装依赖】<a href="https://lodash.com/">Lodash</a> template 实现</li>
+<li><code>markdown</code> <a href="https://marked.js.org">marked</a> 封装</li>
+<li><code>proxy</code> 基于 <a href="https://www.npmjs.com/package/request">request</a> 实现代理</li>
+<li><code>qrcode</code> 一个简单的字符串转二维码图片的接口实现</li>
+<li><code>typescript</code> <a href="https://www.typescriptlang.org/">TypeScript</a> 单文件编译实现</li>
+<li><code>sass</code> <a href="http://sass.bootcss.com/">Sass</a> 编译支持</li>
+<li><code>rollup</code> <a href="https://www.rollupjs.com/guide/zh">Rollup</a> 支持</li>
+<li><code>webpack</code> <a href="https://www.webpackjs.com/">Webpack</a></li>
+<li><code>authority</code> 公司内部使用的轻量级 <strong>权限验证、权限-角色-用户管理</strong> 通用组件</li>
+<li><code>markdown-ppt</code> <a href="https://github.com/f2e-server/f2e-middle-markdown-ppt">MarkdownPPT</a> 基于<a href="https://www.npmjs.com/package/marked">marked</a>简单在线PPT演示</li>
+</ol>
+</div>
+    </div>
+    <div class="hero-foot">
+        <div class="container"></div>
+    </div>
+</section>
+<section class="hero is-fullheight animated is-success is-bold" data-animated="flash">
+    <div class="hero-head">
+        <div class="container"></div>
+    </div>
+    <div class="hero-body">
+        <div class="container content"><h1 id="markdownppt">MarkdownPPT</h1>
+<pre><code>MarkdownPPT 当前在线PPT实现原理</code></pre><p><img src="img/f2e-middle-markdown-ppt.png" alt="f2e-middle-markdown-ppt.png"></p>
+</div>
+    </div>
+    <div class="hero-foot">
+        <div class="container"></div>
+    </div>
+</section>
+<div id="image-preview" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box image-preview">
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+</div>
+<script>(function () {
+    "use strict";
+    const {
+        mode
+    } = (function (query) {
+        let obj = {}
+        query.replace(/(\w+)=([^\?\&]+)/g, function (_a, k, v) {
+            obj[k] = v
+        })
+        return obj
+    })(location.search);
+    document.body.classList.add(mode);
+
+    let online = true;
+    let index = location.hash && Number(location.hash.substring(1)) || 0;
+
+    const sections = document.querySelectorAll('section.hero');
+
+    let token = localStorage.getItem('_MDPPT_TOKEN_')
+    const pageTo = (n, withFetch) => {
+        n = Math.min(n, sections.length - 1);
+        n = Math.max(n, 0);
+
+        const prev = sections.item(index)
+        prev.classList.remove(prev.dataset['animated'])
+        prev.classList.remove('active')
+
+        const current = sections.item(n)
+        current.classList.add(current.dataset['animated'])
+        current.classList.add('active')
+
+        index = n
+        location.hash = '#' + index
+        if (online && withFetch) {
+            let _token = token || prompt('token:')
+            if (_token) {
+                fetch(`/markdown-ppt-event?index=${index}&token=${_token}`)
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        localStorage.setItem('_MDPPT_TOKEN_', _token)
+                    }
+                    token = res.success && _token
+                })
+            }
+        }
+    }
+    const next = () => pageTo(index + 1, mode === 'speaker');
+    const prev = () => pageTo(index - 1, mode === 'speaker');
+
+    pageTo(index)
+
+    addEventListener('keyup', e => {
+        switch (e.keyCode) {
+            case 38:
+                prev();
+                break;
+            case 40:
+                next();
+                break;
+            default:
+                break;
+        }
+    });
+
+    let swipe = null
+    addEventListener('touchstart', e => {
+        const { pageX, pageY } = e.touches[0];
+        swipe = { pageX, pageY }
+    })
+    addEventListener('touchend', e => {
+        swipe = null
+    })
+    addEventListener('touchmove', e => {
+        const { pageX, pageY } = e.touches[0];
+        if (swipe) {
+            if (swipe.pageY - pageY > 30) {
+                next()
+                swipe = null
+            } else if (swipe.pageY - pageY < -30) {
+                prev()
+                swipe = null
+            }
+        }
+    })
+
+    let _n = 0
+    const createSSE = function createSSE () {
+        online = true
+        const sse = new EventSource('/markdown-ppt-event', { withCredentials: true });
+        const onMessage = e => {
+            if (e.data != 'false') {
+                pageTo(Number(e.data) % sections.length)
+            }
+        };
+        const onError = e => {
+            online = false
+            sse.removeEventListener('message', onMessage)
+            sse.removeEventListener('error', onError)
+            setTimeout(createSSE, ++_n * 1000);
+        }
+        sse.addEventListener('message', onMessage)
+        sse.addEventListener('error', onError)
+    }
+    createSSE();
+
+
+    // imageview
+    const preview = document.querySelector('#image-preview')
+    preview.addEventListener('dblclick', e => {
+        preview.classList.remove('is-active')
+    })
+    addEventListener('click', e => {
+        const target = e.target
+        if (target.matches('.content img')) {
+            preview.querySelector('.image-preview').innerHTML = `<img src="${target.src}"/>`
+            preview.classList.add('is-active')
+        }
+        if (target.matches('.modal-close')) {
+            preview.classList.remove('is-active')
+        }
+    })
+    
+})()</script>
+</body>
+</html>
